@@ -1,9 +1,9 @@
 <template>
-  <Tutorial/>
+  <div>
+    <SideMenu></SideMenu>
+  </div>
 </template>
 
 <script>
-export default {
-  name: 'IndexPage'
-}
+
 </script>
