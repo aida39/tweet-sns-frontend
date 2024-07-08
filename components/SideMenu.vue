@@ -3,11 +3,11 @@
         <img class="service-logo" src="../assets/images/logo.png" alt="logo" />
         <div class="menu-item">
             <img class="menu-logo" src="../assets/images/home.png" alt="logo">
-            <a href="" class="menu-link">ホーム</a>
+            <NuxtLink to="/" class="menu-link">ホーム</NuxtLink>
         </div>
-        <div class="menu-item">
-            <img class="menu-logo" src="../assets/images/logout.png" alt="logo">
-            <a href="" class="menu-link">ログアウト</a>
+        <div class=" menu-item">
+                <img class="menu-logo" src="../assets/images/logout.png" alt="logo">
+                <a href="" class="menu-link">ログアウト</a>
         </div>
         <form action="" class="form">
             <label for="content" class="form-label">シェア</label>
@@ -18,7 +18,6 @@
         </form>
     </div>
 </template>
-
 
 <style scoped>
 .sidemenu-container {

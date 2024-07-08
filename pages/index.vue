@@ -9,7 +9,7 @@
           <img class="post-icon" src="../assets/images/heart.png" alt="heart-icon">
           <span class="">1</span>
           <img class="post-icon" src="../assets/images/cross.png" alt="cross-icon">
-          <img class="post-icon" src="../assets/images/detail.png" alt="detail-icon">
+          <img @click="goDetail" class="post-icon" src="../assets/images/detail.png" alt="detail-icon">
         </div>
         <p class="">test message</p>
       </div>
@@ -18,7 +18,13 @@
 </template>
 
 <script>
-
+export default {
+  methods: {
+    goDetail() {
+      this.$router.push('/detail');
+    },
+  }
+}
 </script>
 
 <style scoped>
@@ -54,6 +60,7 @@
 .post-icon {
   width: 25px;
   margin: 0 15px;
+  cursor: pointer;
 }
 
 .post-author {
