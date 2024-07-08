@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="sidemenu-container">
         <img class="service-logo" src="../assets/images/logo.png" alt="logo" />
         <div class="menu-item">
             <img class="menu-logo" src="../assets/images/home.png" alt="logo">
@@ -21,11 +21,8 @@
 
 
 <style scoped>
-.container {
-
+.sidemenu-container {
     width: 30%;
-    height: 600px;
-    background-color: rgb(30, 30, 42);
 }
 
 .service-logo {
@@ -57,13 +54,13 @@
 }
 
 .form-textarea {
-    width: 260px;
+    width: 90%;
     margin: 15px 0;
     padding: 10px;
     border-color: #fff;
     border-radius: 10px;
     color: #fff;
-    background-color: rgb(30, 30, 42);
+    background-color: #15202B;
 }
 
 .form-button-area {
@@ -74,6 +71,6 @@
     padding: 7px 12px;
     border-radius: 30px;
     color: #fff;
-    background-color: rgb(110, 0, 255);
+    background-color: #5419DA;
 }
 </style>
