@@ -1,3 +1,32 @@
 html {
     background-color: #15202B;
 }
+
+.auth-form {
+    width: 360px;
+    margin: 100px auto 0;
+    padding: 20px 0;
+    border-radius: 7px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.auth-title{
+    margin-bottom: 20px;
+}
+
+.auth-input {
+    width: 80%;
+    height: 35px;
+    margin-bottom: 20px;
+    padding: 0 20px;
+    border: 1px solid ;
+    border-radius: 8px;
+}
+
+.auth-button {
+    padding: 7px 12px;
+    border-radius: 30px;
+    color: #fff;
+    background-color: #5419DA;
+}
