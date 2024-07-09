@@ -1,9 +1,9 @@
 <template>
-  <div class="container">
+  <div id="app" class="container">
     <SideMenu></SideMenu>
     <div class="main-content">
       <h1 class="main-title">ホーム</h1>
-      <div class="post-content">
+      <div class="post-content" v-for="item in postLists" :key="item.id">
         <div class="post-unit">
           <span class="post-author">test</span>
           <img class="post-icon" src="../assets/images/heart.png" alt="heart-icon">
@@ -11,7 +11,7 @@
           <img class="post-icon" src="../assets/images/cross.png" alt="cross-icon">
           <img @click="goDetail" class="post-icon" src="../assets/images/detail.png" alt="detail-icon">
         </div>
-        <p class="">test message</p>
+        <p class="">{{ item.content }}</p>
       </div>
     </div>
   </div>
@@ -19,10 +19,32 @@
 
 <script>
 export default {
+  data() {
+    return {
+      newContent:"",
+      postLists: [],
+    };
+  },
   methods: {
+    async getPost() {
+      const resData = await this.$axios.get(
+        "http://127.0.0.1:80/api/post/"
+      );
+      this.postLists = resData.data.data;
+    },
+    async insertPost() {
+      const sendData = {
+        content: this.newContent,
+      };
+      await this.$axios.post("http://127.0.0.1:80/api/post/", sendData);
+      this.getPost();
+    },
     goDetail() {
       this.$router.push('/detail');
     },
+  },
+  created() {
+    this.getPost();
   }
 }
 </script>
