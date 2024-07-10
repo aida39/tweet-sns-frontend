@@ -5,13 +5,14 @@
             <img class="menu-logo" src="../assets/images/home.png" alt="logo">
             <NuxtLink to="/" class="menu-link">ホーム</NuxtLink>
         </div>
-        <div class=" menu-item">
+        <div class="menu-item">
             <img class="menu-logo" src="../assets/images/logout.png" alt="logo">
             <a href="" class="menu-link">ログアウト</a>
         </div>
         <div class="form">
             <label for="content" class="form-label">シェア</label>
-            <textarea name="content" id="content" v-model="newContent" cols="30" rows="5" class="form-textarea"></textarea>
+            <textarea name="content" id="content" v-model="newContent" cols="30" rows="5"
+                class="form-textarea"></textarea>
             <div class="form-button-area">
                 <button @click="insertPost" class="form-button">シェアする</button>
             </div>
@@ -21,36 +22,23 @@
 
 <script>
 export default {
-    data() {
-        return {
-            newContent: "",
-            postLists: [],
-        };
+    props: {
+        newContent: {
+            type: String,
+            default: "",
+        },
     },
     methods: {
-        async getPost() {
-            const resData = await this.$axios.get(
-                "http://127.0.0.1:80/api/post/"
-            );
-            this.postLists = resData.data.data;
-        },
         async insertPost() {
             const sendData = {
                 content: this.newContent,
             };
             await this.$axios.post("http://127.0.0.1:80/api/post/", sendData);
-            this.getPost();
-        },
-        goDetail() {
-            this.$router.push('/detail');
+            this.$emit('post-inserted');
         },
     },
-    created() {
-        this.getPost();
-    }
 }
 </script>
-
 
 <style scoped>
 .sidemenu-container {

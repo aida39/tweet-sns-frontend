@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="container">
-    <SideMenu></SideMenu>
+    <SideMenu @post-inserted="getPost" :newContent.sync="newContent" />
     <div class="main-content">
       <h1 class="main-title">ホーム</h1>
       <div class="post-content" v-for="item in postLists" :key="item.id">
@@ -21,23 +21,14 @@
 export default {
   data() {
     return {
-      newContent:"",
+      newContent: "",
       postLists: [],
     };
   },
   methods: {
     async getPost() {
-      const resData = await this.$axios.get(
-        "http://127.0.0.1:80/api/post/"
-      );
+      const resData = await this.$axios.get("http://127.0.0.1:80/api/post/");
       this.postLists = resData.data.data;
-    },
-    async insertPost() {
-      const sendData = {
-        content: this.newContent,
-      };
-      await this.$axios.post("http://127.0.0.1:80/api/post/", sendData);
-      this.getPost();
     },
     goDetail() {
       this.$router.push('/detail');
@@ -45,7 +36,7 @@ export default {
   },
   created() {
     this.getPost();
-  }
+  },
 }
 </script>
 
@@ -54,7 +45,7 @@ export default {
   display: flex;
 }
 
-.main-content{
+.main-content {
   width: 70%;
 }
 
