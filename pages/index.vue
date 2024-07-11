@@ -6,10 +6,10 @@
       <div class="post-content" v-for="item in postLists" :key="item.id">
         <div class="post-unit">
           <span class="post-author">test</span>
-          <img class="post-icon" src="../assets/images/heart.png" alt="heart-icon">
+          <img class="post-icon" src="@/assets/images/heart.png" alt="heart-icon">
           <span class="">1</span>
-          <img @click="deletePost(item.id)" class="post-icon" src="../assets/images/cross.png" alt="cross-icon">
-          <img @click="goDetail" class="post-icon" src="../assets/images/detail.png" alt="detail-icon">
+          <img @click="deletePost(item.id)" class="post-icon" src="@/assets/images/cross.png" alt="cross-icon">
+          <img @click="goDetail(item.id)" class="post-icon" src="@/assets/images/detail.png" alt="detail-icon">
         </div>
         <p class="">{{ item.content }}</p>
       </div>
@@ -34,8 +34,8 @@ export default {
       await this.$axios.delete("http://127.0.0.1:80/api/post/" + id);
       this.getPost();
     },
-    goDetail() {
-      this.$router.push('/detail');
+    goDetail(id) {
+      this.$router.push('/post/' + id);
     },
   },
   created() {

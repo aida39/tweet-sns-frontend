@@ -5,12 +5,13 @@
             <h1 class="main-title">コメント</h1>
             <div class="post-content">
                 <div class="post-unit">
-                    <span class="post-author">test</span>
-                    <img class="post-icon" src="../assets/images/heart.png" alt="heart-icon">
+                    <span class="post-author">author name</span>
+                    <img class="post-icon" src="@/assets/images/heart.png" alt="heart-icon">
                     <span class="">1</span>
-                    <img class="post-icon" src="../assets/images/cross.png" alt="cross-icon">
+                    <img @click="deletePost()" class="post-icon" src="@/assets/images/cross.png"
+                        alt="cross-icon">
                 </div>
-                <p class="">test message</p>
+                <p class="">{{ content }}</p>
             </div>
             <div class="sub-title">コメント</div>
             <div class="post-content">
@@ -31,11 +32,24 @@
 
 <script>
 export default {
+    data() {
+        return {
+            content: null,
+        };
+    },
     methods: {
-        goDetail() {
-            this.$router.push('/detail');
+        async getContent() {
+            const  showData  = await this.$axios.get(`http://127.0.0.1:80/api/post/${this.$route.params.id}`);
+            this.content = showData.data.data[0].content;
         },
-    }
+        async deletePost() {
+            await this.$axios.delete(`http://127.0.0.1:80/api/post/${this.$route.params.id}`);
+            this.$router.push('/');
+        },
+    },
+    created() {
+        this.getContent();
+    },
 }
 </script>
 
