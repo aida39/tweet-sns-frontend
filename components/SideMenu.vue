@@ -34,7 +34,7 @@ export default {
                 content: this.newContent,
             };
             await this.$axios.post("http://127.0.0.1:80/api/post/", sendData);
-            this.$emit('post-inserted');
+            this.$emit('post-action');
         },
     },
 }
