@@ -5,27 +5,24 @@
             <h1 class="main-title">コメント</h1>
             <div class="post-content">
                 <div class="post-unit">
-                    <span class="post-author">author name</span>
+                    <span class="post-author">post-author</span>
                     <img class="post-icon" src="@/assets/images/heart.png" alt="heart-icon">
                     <span class="">1</span>
-                    <img @click="deletePost()" class="post-icon" src="@/assets/images/cross.png"
-                        alt="cross-icon">
+                    <img @click="deletePost()" class="post-icon" src="@/assets/images/cross.png" alt="cross-icon">
                 </div>
                 <p class="">{{ content }}</p>
             </div>
             <div class="sub-title">コメント</div>
-            <div class="post-content">
-                <div class="post-author">test</div>
-                <p class="">test message</p>
+            <div class="post-content" v-for="item in commentLists" :key="item.id">
+                <div class="post-author">comment-author</div>
+                <p class="">{{ item.content }}</p>
             </div>
-            <form action="">
-                <div>
-                    <input class="form-input" type="text">
-                </div>
-                <div class="form-button-area">
-                    <button class="form-button">コメント</button>
-                </div>
-            </form>
+            <div>
+                <input class="form-input" type="text">
+            </div>
+            <div class="form-button-area">
+                <button class="form-button">コメント</button>
+            </div>
         </div>
     </div>
 </template>
@@ -35,20 +32,27 @@ export default {
     data() {
         return {
             content: null,
+            commentLists: [],
+
         };
     },
     methods: {
         async getContent() {
-            const  showData  = await this.$axios.get(`http://127.0.0.1:80/api/post/${this.$route.params.id}`);
+            const showData = await this.$axios.get(`http://127.0.0.1:80/api/post/${this.$route.params.id}`);
             this.content = showData.data.data[0].content;
         },
         async deletePost() {
             await this.$axios.delete(`http://127.0.0.1:80/api/post/${this.$route.params.id}`);
             this.$router.push('/');
+        }, async getComment() {
+            const resData = await this.$axios.get(`http://127.0.0.1:80/api/comment/${this.$route.params.id}`);
+            this.commentLists = resData.data.data;
         },
     },
     created() {
         this.getContent();
+        this.getComment();
+
     },
 }
 </script>
