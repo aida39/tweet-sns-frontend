@@ -18,10 +18,10 @@
                 <p class="">{{ item.content }}</p>
             </div>
             <div>
-                <input class="form-input" type="text">
+                <input class="form-input" type="text" name="content" v-model="newComment">
             </div>
             <div class="form-button-area">
-                <button class="form-button">コメント</button>
+                <button @click="insertComment" class="form-button">コメント</button>
             </div>
         </div>
     </div>
@@ -33,6 +33,7 @@ export default {
         return {
             content: null,
             commentLists: [],
+            newComment:"",
 
         };
     },
@@ -44,9 +45,18 @@ export default {
         async deletePost() {
             await this.$axios.delete(`http://127.0.0.1:80/api/post/${this.$route.params.id}`);
             this.$router.push('/');
-        }, async getComment() {
+        },
+        async getComment() {
             const resData = await this.$axios.get(`http://127.0.0.1:80/api/comment/${this.$route.params.id}`);
             this.commentLists = resData.data.data;
+        },
+        async insertComment() {
+            const sendData = {
+                post_id: this.$route.params.id,
+                content: this.newComment,
+            };
+            await this.$axios.post("http://127.0.0.1:80/api/comment/", sendData);
+            this.getComment();
         },
     },
     created() {
