@@ -7,7 +7,7 @@
         </div>
         <div class="menu-item">
             <img class="menu-logo" src="../assets/images/logout.png" alt="logo">
-            <a href="" class="menu-link">ログアウト</a>
+            <a @click="logout" class="menu-link">ログアウト</a>
         </div>
         <div class="form">
             <label for="content" class="form-label">シェア</label>
@@ -35,6 +35,10 @@ export default {
             };
             await this.$axios.post("http://127.0.0.1:80/api/post/", sendData);
             this.$emit('post-action');
+        },
+        async logout() {
+            await this.$auth.logout();
+            this.$router.push("/login");
         },
     },
 }
