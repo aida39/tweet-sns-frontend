@@ -71,4 +71,7 @@ export default {
     },
   },
 
+  router: {
+    middleware: ['auth']
+  }
 }
