@@ -5,7 +5,7 @@
             <h1 class="main-title">コメント</h1>
             <div class="post-content">
                 <div class="post-unit">
-                    <span class="post-author">post-author</span>
+                    <span class="post-author">{{ userData.user.name }}</span>
                     <img class="post-icon" src="@/assets/images/heart.png" alt="heart-icon">
                     <span class="">1</span>
                     <img @click="deletePost()" class="post-icon" src="@/assets/images/cross.png" alt="cross-icon">
@@ -14,7 +14,7 @@
             </div>
             <div class="sub-title">コメント</div>
             <div class="post-content" v-for="item in commentLists" :key="item.id">
-                <div class="post-author">comment-author</div>
+                <div class="post-author">{{ item.user.name }}</div>
                 <p class="">{{ item.content }}</p>
             </div>
             <div>
@@ -31,16 +31,20 @@
 export default {
     data() {
         return {
+            userData: {
+                user: {}
+            },
             content: null,
             commentLists: [],
-            newComment:"",
-
+            newComment: "",
         };
     },
     methods: {
         async getContent() {
             const showData = await this.$axios.get(`http://127.0.0.1:80/api/post/${this.$route.params.id}`);
+            this.userData = showData.data.data[0];
             this.content = showData.data.data[0].content;
+
         },
         async deletePost() {
             await this.$axios.delete(`http://127.0.0.1:80/api/post/${this.$route.params.id}`);
@@ -62,7 +66,6 @@ export default {
     created() {
         this.getContent();
         this.getComment();
-
     },
 }
 </script>

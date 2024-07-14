@@ -5,7 +5,7 @@
       <h1 class="main-title">ホーム</h1>
       <div class="post-content" v-for="item in postLists" :key="item.id">
         <div class="post-unit">
-          <span class="post-author">test</span>
+          <span class="post-author">{{ item.user.name }}</span>
           <img class="post-icon" src="@/assets/images/heart.png" alt="heart-icon">
           <span class="">1</span>
           <img @click="deletePost(item.id)" class="post-icon" src="@/assets/images/cross.png" alt="cross-icon">
