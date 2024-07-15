@@ -66,6 +66,7 @@ export default {
 .menu-link {
     color: #fff;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .form {

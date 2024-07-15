@@ -6,8 +6,10 @@
       <div class="post-content" v-for="item in postLists" :key="item.id">
         <div class="post-unit">
           <span class="post-author">{{ item.user.name }}</span>
-          <img class="post-icon" src="@/assets/images/heart.png" alt="heart-icon">
+          <span class="post-author">{{ item.like }}</span>
+          <img @click="like(item)" class="post-icon" src="@/assets/images/heart.png" alt="heart-icon">
           <span class="">1</span>
+          <img @click="unlike(item)" class="post-icon" src="@/assets/images/heart.png" alt="heart-icon">
           <img @click="deletePost(item.id)" class="post-icon" src="@/assets/images/cross.png" alt="cross-icon">
           <img @click="goDetail(item.id)" class="post-icon" src="@/assets/images/detail.png" alt="detail-icon">
         </div>
@@ -37,6 +39,21 @@ export default {
     goDetail(id) {
       this.$router.push('/post/' + id);
     },
+    async like(item) {
+      await this.$axios.post("http://127.0.0.1:80/api/like/",
+        {
+          post_id: item.id,
+          user_id: item.user.id,
+        }
+      );
+      this.getPost();
+    },
+    async unlike(item) {
+      const like = item.like.find(like => like.user_id === item.user.id && like.post_id === item.id);
+      await this.$axios.delete("http://127.0.0.1:80/api/like/" + like.id);
+      this.getPost();
+    },
+
   },
   created() {
     this.getPost();
