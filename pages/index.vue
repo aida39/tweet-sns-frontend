@@ -6,9 +6,8 @@
       <div class="post-content" v-for="item in postLists" :key="item.id">
         <div class="post-unit">
           <span class="post-author">{{ item.user.name }}</span>
-          <span class="post-author">{{ item.like }}</span>
           <img @click="likeSwitch(item)" class="post-icon" src="@/assets/images/heart.png" alt="heart-icon">
-          <span class=""></span>
+          <span class="">{{ item.like.length }}</span>
           <img @click="deletePost(item.id)" class="post-icon" src="@/assets/images/cross.png" alt="cross-icon">
           <img @click="goDetail(item.id)" class="post-icon" src="@/assets/images/detail.png" alt="detail-icon">
         </div>
