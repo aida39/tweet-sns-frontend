@@ -8,7 +8,8 @@
           <span class="post-author">{{ item.user.name }}</span>
           <img @click="likeSwitch(item)" class="post-icon" src="@/assets/images/heart.png" alt="heart-icon">
           <span class="">{{ item.like.length }}</span>
-          <img @click="deletePost(item.id)" class="post-icon" src="@/assets/images/cross.png" alt="cross-icon">
+          <img v-if="isUserPost(item)" @click="deletePost(item.id)" class="post-icon" src="@/assets/images/cross.png"
+            alt="cross-icon">
           <img @click="goDetail(item.id)" class="post-icon" src="@/assets/images/detail.png" alt="detail-icon">
         </div>
         <p class="">{{ item.content }}</p>
@@ -23,6 +24,7 @@ export default {
     return {
       newContent: "",
       postLists: [],
+      user: [],
     };
   },
   methods: {
@@ -31,8 +33,10 @@ export default {
       this.postLists = resData.data.data;
     },
     async deletePost(id) {
-      await this.$axios.delete("http://127.0.0.1:80/api/post/" + id);
-      this.getPost();
+      if (this.confirmAction('この投稿を削除してもよろしいですか？')) {
+        await this.$axios.delete("http://127.0.0.1:80/api/post/" + id);
+        this.getPost();
+      }
     },
     goDetail(id) {
       this.$router.push('/post/' + id);
@@ -61,6 +65,19 @@ export default {
     hasLiked(item) {
       return item.like.some(like => like.user_id === item.user.id && like.post_id === item.id);
     },
+    isUserPost(item) {
+      // const user = await this.$axios.get("http://127.0.0.1/api/user");
+      // 404error,ユーザー情報取得ができない,メソッド名にasyncを追記
+      return item.user.id === 1 ;
+    },
+    confirmDeletePost(id) {
+      if (this.confirmAction('この投稿を削除してもよろしいですか？')) {
+        this.deletePost(id);
+      }
+    },
+    confirmAction(message) {
+      return confirm(message);
+    }
   },
   created() {
     this.getPost();
