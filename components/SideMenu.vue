@@ -10,12 +10,18 @@
             <a @click="logout" class="menu-link">ログアウト</a>
         </div>
         <div class="form">
-            <label for="content" class="form-label">シェア</label>
-            <textarea name="content" id="content" v-model="newContent" cols="30" rows="5"
-                class="form-textarea"></textarea>
-            <div class="form-button-area">
-                <button @click="insertPost" class="form-button">シェアする</button>
-            </div>
+            <validation-observer ref="obs" v-slot="ObserverProps">
+                <validation-provider v-slot="ProviderProps" rules="required|max:120">
+                    <label for="content" class="form-label">シェア</label>
+                    <textarea name="content" id="content" v-model="newContent" cols="30" rows="5"
+                        class="form-textarea"></textarea>
+                    <div class="error">{{ ProviderProps.errors[0] }}</div>
+                    <div class="form-button-area">
+                        <button @click="insertPost" class="form-button"
+                            :disabled="ObserverProps.invalid || !ObserverProps.validated">シェアする</button>
+                    </div>
+                </validation-provider>
+            </validation-observer>
         </div>
     </div>
 </template>
@@ -97,5 +103,11 @@ export default {
     border-radius: 30px;
     color: #fff;
     background-color: #5419DA;
+    cursor: pointer;
+}
+
+.form-button:disabled {
+    background-color: #7f7f7f;
+    cursor: not-allowed;
 }
 </style>

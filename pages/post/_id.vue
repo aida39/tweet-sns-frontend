@@ -17,12 +17,18 @@
                 <div class="post-author">{{ item.user.name }}</div>
                 <p class="">{{ item.content }}</p>
             </div>
-            <div>
-                <input class="form-input" type="text" name="content" v-model="newComment">
-            </div>
-            <div class="form-button-area">
-                <button @click="insertComment" class="form-button">コメント</button>
-            </div>
+            <validation-observer ref="obs" v-slot="ObserverProps">
+                <validation-provider v-slot="ProviderProps" rules="required|max:120">
+                    <div>
+                        <input class="form-input" type="text" name="content" v-model="newComment">
+                        <div class="error">{{ ProviderProps.errors[0] }}</div>
+                    </div>
+                    <div class="form-button-area">
+                        <button @click="insertComment" class="form-button"
+                            :disabled="ObserverProps.invalid || !ObserverProps.validated">コメント</button>
+                    </div>
+                </validation-provider>
+            </validation-observer>
         </div>
     </div>
 </template>
@@ -47,8 +53,10 @@ export default {
 
         },
         async deletePost() {
+            if (this.confirmAction('この投稿を削除してもよろしいですか？')) {
             await this.$axios.delete(`http://127.0.0.1:80/api/post/${this.$route.params.id}`);
-            this.$router.push('/');
+                this.$router.push('/');
+            }
         },
         async getComment() {
             const resData = await this.$axios.get(`http://127.0.0.1:80/api/comment/${this.$route.params.id}`);
@@ -62,6 +70,9 @@ export default {
             await this.$axios.post("http://127.0.0.1:80/api/comment/", sendData);
             this.getComment();
         },
+        confirmAction(message) {
+            return confirm(message);
+        }
     },
     created() {
         this.getContent();
@@ -139,5 +150,10 @@ export default {
     border-radius: 30px;
     color: #fff;
     background-color: #5419DA;
+}
+
+.form-button:disabled {
+    background-color: #7f7f7f;
+    cursor: not-allowed;
 }
 </style>
